@@ -11,26 +11,24 @@ def schoolRegister(request):
     if request.method == "POST":
         # Get the post parameters
         username = request.POST["username"]
-        fname = request.POST["fname"]
-        lname = request.POST["lname"]
-        email = request.POST["email"]
+        fname = request.POST["school_name"]
+        email = request.POST["school_email"]
         pass1 = request.POST["pass1"]
         pass2 = request.POST["pass2"]
 
         # Check for errorneous inputs
         if not username.isalnum() or len(username) > 10:
-            return redirect("school-home")
+            return redirect("school_home")
 
         if pass1 != pass2:
-            return redirect("school-home")
+            return redirect("school_home")
 
         # Create the user
         myuser = User.objects.create_user(username, email, pass1)
         myuser.first_name = fname
-        myuser.last_name = lname
         myuser.save()
 
-        return redirect("school-home")
+        return redirect("school_home")
     return render(request, "school/register.html")
 
 def schoolLogin(request):
