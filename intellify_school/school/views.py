@@ -3,11 +3,20 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.contrib import messages
 
+from .models import School
+from .decorators import unauthenticated_user, allowed_users, admin_only
+from django.contrib.auth.decorators import login_required
+
 # Create your views here.
+@login_required(login_url='school_login')
+@allowed_users(allowed_roles=['school', 'admin'])
 def schoolHome(request):
-    context = {}
+    school_name = request.user
+    print(school_name)
+    context = {'school_name': school_name}
     return render(request, 'school/index.html', context)
 
+@unauthenticated_user
 def schoolRegister(request):
     if request.method == "POST":
         # Get the post parameters
@@ -18,7 +27,7 @@ def schoolRegister(request):
         pass2 = request.POST["pass2"]
 
         # Check for errorneous inputs
-        if not username.isalnum() or not len(username) > 10:
+        if not username.isalnum() or len(username) > 10:
             messages.error(request, 'Your username should be alphanumeric and less than 10 characters!')
             return redirect("school_register")
 
@@ -35,6 +44,7 @@ def schoolRegister(request):
         return redirect("school_login")
     return render(request, "school/register.html")
 
+@unauthenticated_user
 def schoolLogin(request):
     if request.method == "POST":
         # Get the post parameters
@@ -56,3 +66,11 @@ def schoolLogout(request):
     logout(request)
     messages.success(request, "Successfully logged out!")
     return redirect("school_login")
+
+@login_required(login_url='school_login')
+@allowed_users(allowed_roles=['school', 'admin'])
+def schoolProfile(request):
+    s_profile = request.user.school
+    print(s_profile)
+    context = {'s_profile': s_profile}
+    return render(request, 'school/school_profile.html', context)
