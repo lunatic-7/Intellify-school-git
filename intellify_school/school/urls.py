@@ -7,4 +7,5 @@ urlpatterns = [
     # AUTHENTICATION
     path('school-register/', views.schoolRegister, name="school_register"),
     path('school-login/', views.schoolLogin, name="school_login"),
+    path('school-logout/', views.schoolLogout, name='school_logout'),
 ]
