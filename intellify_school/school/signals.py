@@ -3,8 +3,8 @@ from django.contrib.auth.models import User
 from .models import School
 from django.contrib.auth.models import Group
 
-
-def customer_profile(sender, instance, created, **kwargs):
+# Creating school profile whenever a school user is created and alloting them to their respective group.
+def school_profile(sender, instance, created, **kwargs):
     if created:
         group = Group.objects.get(name="school")
         instance.groups.add(group)
@@ -13,4 +13,4 @@ def customer_profile(sender, instance, created, **kwargs):
 
         print("Profile Created")
 
-post_save.connect(customer_profile, sender=User)
+post_save.connect(school_profile, sender=User)

@@ -3,7 +3,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.contrib import messages
 
-from .models import School
+from .models import *
 from .decorators import unauthenticated_user, allowed_users, admin_only
 from django.contrib.auth.decorators import login_required
 
@@ -66,6 +66,27 @@ def schoolLogout(request):
     logout(request)
     messages.success(request, "Successfully logged out!")
     return redirect("school_login")
+
+@login_required(login_url='school_login')
+@allowed_users(allowed_roles=['school', 'admin'])
+def schoolProfileAdd(request):
+    if request.method == "POST":
+        # Get the post parameters
+        school_head = request.POST["school_head"]
+        phone_no = request.POST["phone_no"]
+        students_no = request.POST["students_no"]
+        email = request.POST["email"]
+        school_name = request.POST["school_name"]
+        print(school_head)
+
+        profile = request.user.school.id
+        s_profile = School.objects.filter(id=profile).update(hod_name=school_head, students_no=students_no, phone=phone_no, email=email, name=school_name)
+        return redirect("school_profile")
+
+    s_profile = request.user.school
+    print(s_profile)
+    context = {'s_profile': s_profile}
+    return render(request, 'school/school_profile_add.html', context)
 
 @login_required(login_url='school_login')
 @allowed_users(allowed_roles=['school', 'admin'])
