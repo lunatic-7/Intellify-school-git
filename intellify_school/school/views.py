@@ -14,8 +14,9 @@ from django.contrib.auth.decorators import login_required
 @allowed_users(allowed_roles=['school', 'admin'])
 def schoolHome(request):
     school_name = request.user
+    school_id = request.user.school.id
     print(school_name)
-    context = {'school_name': school_name}
+    context = {'school_name': school_name, 'school_id': school_id}
     return render(request, 'school/index.html', context)
 
 # School Registration (Wasif)
