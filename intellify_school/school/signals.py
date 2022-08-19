@@ -4,6 +4,7 @@ from .models import School
 from django.contrib.auth.models import Group
 
 # Creating school profile whenever a school user is created and alloting them to their respective group.
+# (Wasif)
 def school_profile(sender, instance, created, **kwargs):
     if created:
         group = Group.objects.get(name="school")

@@ -8,6 +8,8 @@ from .decorators import unauthenticated_user, allowed_users, admin_only
 from django.contrib.auth.decorators import login_required
 
 # Create your views here.
+
+# School Dashboard (Wasif)
 @login_required(login_url='school_login')
 @allowed_users(allowed_roles=['school', 'admin'])
 def schoolHome(request):
@@ -16,6 +18,7 @@ def schoolHome(request):
     context = {'school_name': school_name}
     return render(request, 'school/index.html', context)
 
+# School Registration (Wasif)
 @unauthenticated_user
 def schoolRegister(request):
     if request.method == "POST":
@@ -44,6 +47,7 @@ def schoolRegister(request):
         return redirect("school_login")
     return render(request, "school/register.html")
 
+# School Login (Wasif)
 @unauthenticated_user
 def schoolLogin(request):
     if request.method == "POST":
@@ -62,11 +66,13 @@ def schoolLogin(request):
         
     return render(request, "school/login.html")
 
+# School Logout (Wasif)
 def schoolLogout(request):
     logout(request)
     messages.success(request, "Successfully logged out!")
     return redirect("school_login")
 
+# Edit/Add School Profile (Wasif)
 @login_required(login_url='school_login')
 @allowed_users(allowed_roles=['school', 'admin'])
 def schoolProfileAdd(request):
@@ -88,6 +94,7 @@ def schoolProfileAdd(request):
     context = {'s_profile': s_profile}
     return render(request, 'school/school_profile_add.html', context)
 
+# School Profile Page (Wasif)
 @login_required(login_url='school_login')
 @allowed_users(allowed_roles=['school', 'admin'])
 def schoolProfile(request):

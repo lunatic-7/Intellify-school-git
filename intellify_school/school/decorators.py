@@ -2,6 +2,7 @@ from django.http import HttpResponse
 from django.shortcuts import redirect
 
 # To return back logged in user back to home, if he tries to access log in or regiter page while logged in.
+# (Wasif)
 def unauthenticated_user(view_func):
     def wrapper_func(request, *args, **kwargs):
         if request.user.is_authenticated:
@@ -13,6 +14,7 @@ def unauthenticated_user(view_func):
 
 # Adding different user to their respective group, so that they can access some pages and some not, according
 # to their group
+# (Wasif)
 def allowed_users(allowed_roles=[]):
     def decorator(view_func):
         def wrapper_func(request, *args, **kwargs):
@@ -27,7 +29,7 @@ def allowed_users(allowed_roles=[]):
         return wrapper_func
     return decorator
 
-# Making some templated to be seen by admin only
+# Making some templated to be seen by admin only (Wasif)
 def admin_only(view_func):
     def wrapper_function(request, *args, **kwargs):
         group = None

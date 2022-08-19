@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 # Create your models here.
 
 # School Profile
+# School Profile Model (Wasif)
 class School(models.Model):
     user = models.OneToOneField(User, null=True, blank=True, on_delete=models.CASCADE)
     name = models.CharField(max_length=100, null=True)
